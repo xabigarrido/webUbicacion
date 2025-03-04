@@ -3,15 +3,16 @@ import { MapContainer, TileLayer, Marker } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 
 function App() {
-  const [position, setPosition] = useState<[number, number]>([
-    37.7749, -122.4194,
-  ]); // [lat, lng]
+  const [position, setPosition] = useState<{ lat: number; lng: number }>({
+    lat: 37.7749,
+    lng: -122.4194,
+  });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(
       (pos) => {
-        setPosition([pos.coords.latitude, pos.coords.longitude]); // Guardamos lat/lng en el array
+        setPosition({ lat: pos.coords.latitude, lng: pos.coords.longitude });
         setLoading(false);
       },
       () => {
@@ -26,13 +27,17 @@ function App() {
       {loading ? (
         <p>Cargando ubicación...</p>
       ) : (
-        <MapContainer center={position} zoom={13} style={{ height: "100vh" }}>
+        <MapContainer
+          center={[position.lat, position.lng]}
+          zoom={13}
+          style={{ height: "100vh" }}
+        >
           <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-          <Marker position={position} />
+          <Marker position={[position.lat, position.lng]} />
         </MapContainer>
       )}
       <button style={{ width: "100%", padding: 10 }}>
-        Confirmar Ubicaciónsss
+        Confirmar Ubicación
       </button>
     </div>
   );
