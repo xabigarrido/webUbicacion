@@ -1,28 +1,40 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { LatLngExpression } from "leaflet";
+import "leaflet/dist/leaflet.css";
 
 function App() {
-  const [miData, setMiData] = useState({ name: "Xabier", subName: "Garrido" });
+  const [position, setPosition] = useState<LatLngExpression>([
+    37.7749, -122.4194,
+  ]); // Ubicación inicial (San Francisco)
+  const [loading, setLoading] = useState(true);
 
-  const handleButtonClick = () => {
-    // Construimos la URL con los datos que queremos enviar a la app
-    setMiData({ name: "Juan", subName: "Perez" });
-    const data = `myapp://?name=${miData.name}&subName=${miData.subName}`;
-    window.location.href = data; // Esto enviará los datos a la app y la abrirá
-  };
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        setPosition([pos.coords.latitude, pos.coords.longitude]);
+        setLoading(false);
+      },
+      () => {
+        alert("No se pudo obtener la ubicación");
+        setLoading(false);
+      }
+    );
+  }, []);
 
   return (
     <div style={{ height: "100vh", width: "100vw" }}>
-      <div
-        style={{
-          position: "absolute",
-          zIndex: 1221212,
-          height: 50,
-          width: "100%",
-          backgroundColor: "red",
-        }}
-      >
-        <button onClick={handleButtonClick}>Enviar Datos a la App</button>
-      </div>
+      {loading ? (
+        <p>Cargando ubicación...</p>
+      ) : (
+        <MapContainer center={position} zoom={13} style={{ height: "100vh" }}>
+          <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+          <Marker position={position}>
+            <Popup>¡Estás aquí!</Popup>
+          </Marker>
+        </MapContainer>
+      )}
+      <button style={{ width: "100%", padding: 10 }}>Prueba xabi uoload</button>
     </div>
   );
 }
