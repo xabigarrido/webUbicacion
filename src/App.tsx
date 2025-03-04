@@ -226,7 +226,7 @@ export default function App() {
     const { lat, lng } = event.latlng;
     setMarker([lat, lng]); // Guarda solo un marcador
   };
-  // @ts-ignore
+  // @ts-expect-error
   const handleSendLocation = () => {
     const miData = { ubicacionEmpresa: marker, metrosRange };
 
