@@ -23,14 +23,6 @@ function App() {
 
   return (
     <div style={{ height: "100vh", width: "100vw" }}>
-      {loading ? (
-        <p>Cargando ubicación...</p>
-      ) : (
-        <MapContainer center={position} zoom={13} style={{ height: "100vh" }}>
-          <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-          <Marker position={position} />
-        </MapContainer>
-      )}
       <button style={{ width: "100%", padding: 10 }}>
         Confirmar Ubicaciónssssss
       </button>
