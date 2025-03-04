@@ -148,7 +148,7 @@
 // }
 
 // export default App;
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   MapContainer,
   TileLayer,
@@ -226,13 +226,19 @@ export default function App() {
     const { lat, lng } = event.latlng;
     setMarker([lat, lng]); // Guarda solo un marcador
   };
-
+  interface Window {
+    ReactNativeWebView?: {
+      postMessage: (message: string) => void;
+    };
+  }
   const handleSendLocation = () => {
     const miData = { ubicacionEmpresa: marker, metrosRange };
 
-    // Enviar los datos de la ubicación al WebView
-    if (window.ReactNativeWebView) {
+    // Asegúrate de que window.ReactNativeWebView esté definido antes de intentar usarlo
+    if (typeof window !== "undefined" && window.ReactNativeWebView) {
       window.ReactNativeWebView.postMessage(JSON.stringify(miData));
+    } else {
+      console.error("ReactNativeWebView no está disponible.");
     }
   };
 
