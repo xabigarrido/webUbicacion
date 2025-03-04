@@ -157,7 +157,7 @@ import {
   Circle,
   useMapEvents,
 } from "react-leaflet";
-import { LatLngExpression, LeafletEvent } from "leaflet";
+import { LatLngExpression, LeafletMouseEvent } from "leaflet"; // Cambié a LeafletMouseEvent
 import "leaflet/dist/leaflet.css";
 
 function AutoPopupMarker({ position }: { position: LatLngExpression }) {
@@ -180,18 +180,20 @@ function AutoPopupMarker({ position }: { position: LatLngExpression }) {
     </Marker>
   );
 }
+
 function ClickHandler({
   onMapClick,
 }: {
-  onMapClick: (e: LeafletEvent) => void;
+  onMapClick: (e: LeafletMouseEvent) => void; // Cambié a LeafletMouseEvent
 }) {
   useMapEvents({
     click(e) {
-      onMapClick(e);
+      onMapClick(e); // Asegúrate de que el evento sea correctamente manejado
     },
   });
   return null;
 }
+
 export default function App() {
   const [position, setPosition] = useState<LatLngExpression>([
     37.7749, -122.4194,
@@ -218,10 +220,13 @@ export default function App() {
       }
     );
   }, []);
-  const handleMapClick = (event: LeafletEvent) => {
+
+  const handleMapClick = (event: LeafletMouseEvent) => {
+    // Cambié el tipo del evento a LeafletMouseEvent
     const { lat, lng } = event.latlng;
     setMarker([lat, lng]); // Guarda solo un marcador
   };
+
   const handleSendLocation = () => {
     const miData = { ubicacionEmpresa: marker, metrosRange };
 
@@ -230,6 +235,7 @@ export default function App() {
       window.ReactNativeWebView.postMessage(JSON.stringify(miData));
     }
   };
+
   return (
     <div
       style={{
@@ -273,7 +279,9 @@ export default function App() {
                   inputMode="numeric"
                   style={{ padding: 10 }}
                   placeholder="500 metros"
-                  onChange={(event) => setMetrosRange(event.target.value)}
+                  onChange={(event) =>
+                    setMetrosRange(Number(event.target.value))
+                  } // Convertí el valor a número
                 />
                 <button onClick={handleSendLocation}>Agregar ubicación</button>
               </div>
@@ -286,7 +294,6 @@ export default function App() {
               center={position}
               zoom={15}
               style={{ height: "100%", width: "100%" }}
-              onClick={handleMapClick}
             >
               <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
               <AutoPopupMarker position={position} />
