@@ -1,11 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 function App() {
-  const [position, setPosition] = useState([37.7749, -122.4194]);
   const [miData, setMiData] = useState({ name: "Xabier", subName: "Garrido" });
 
   const handleButtonClick = () => {
     // Construimos la URL con los datos que queremos enviar a la app
+    setMiData({ name: "Juan", subName: "Perez" });
     const data = `myapp://?name=${miData.name}&subName=${miData.subName}`;
     window.location.href = data; // Esto enviará los datos a la app y la abrirá
   };
