@@ -34,9 +34,7 @@ function App() {
           </Marker>
         </MapContainer>
       )}
-      <button style={{ width: "100%", padding: 10 }}>
-        Confirmar Ubicación
-      </button>
+      <button style={{ width: "100%", padding: 10 }}>Prueba xabi uoload</button>
     </div>
   );
 }
