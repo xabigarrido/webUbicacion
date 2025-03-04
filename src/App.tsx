@@ -19,14 +19,6 @@ function App() {
     );
   }, []);
 
-  const handleConfirm = () => {
-    const urlParams = new URLSearchParams({
-      lat: position[0],
-      lng: position[1],
-    });
-    window.location.href = `exp://192.168.50.68:8081?${urlParams.toString()}`;
-  };
-
   return (
     <div style={{ height: "100vh", width: "100vw" }}>
       {loading ? (
@@ -37,7 +29,7 @@ function App() {
           <Marker position={position} />
         </MapContainer>
       )}
-      <button onClick={handleConfirm} style={{ width: "100%", padding: 10 }}>
+      <button style={{ width: "100%", padding: 10 }}>
         Confirmar Ubicación
       </button>
     </div>
