@@ -226,11 +226,7 @@ export default function App() {
     const { lat, lng } = event.latlng;
     setMarker([lat, lng]); // Guarda solo un marcador
   };
-  interface Window {
-    ReactNativeWebView?: {
-      postMessage: (message: string) => void;
-    };
-  }
+  // @ts-ignore
   const handleSendLocation = () => {
     const miData = { ubicacionEmpresa: marker, metrosRange };
 
