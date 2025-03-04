@@ -27,7 +27,7 @@ function App() {
       {loading ? (
         <p>Cargando ubicación...</p>
       ) : (
-        <MapContainer center={position} zoom={13} style={{ height: "100vh" }}>
+        <MapContainer center={position} zoom={20} style={{ height: "90%" }}>
           <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
           <Marker position={position}>
             <Popup>¡Estás aquí!</Popup>
